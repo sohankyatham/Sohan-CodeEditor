@@ -1,20 +1,14 @@
 '''
-Create UserInfo.py  
-This will store all the User Information; i.e If user have autosave turned on, if user has word wrap turned  on,
-to see which color theme the user has, see if user has word count turned on, and apply settings.
-'''
+Developer Notes:
 
-'''
-from UserInfo.py import *
+Download Caret and look at the settings
 
-# Create a value if autosave is on - get the value from UserInfo.py, 
-# If autosave is turned on then, UserInfo.py.write(auto is turned on)
-# then from CodeKnight_main_.py get the value to see if autosave was turned on
-# Call this function in a mainloop
-if autosave value = on:
-    call the autosave function
-if autosave value = off:
-    disable the autosave function
+Fix UI
+Add better color themes
+Work on user customization on ide
+
+Built-in Calculator
+Equation Solver
 '''
 
 # Imports
@@ -26,9 +20,12 @@ import tkinter.font as tkfont
 # Importing File Templates from FileTemplates.py
 from FileTemplates import *
 
+# Import the User Data/Information from UserInfo.py - change name to user preferences or settings or summin
+from UserInfo import *
 
 
-# Window
+
+# Screen
 root = Tk()
 root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
 root.title("Code Knight")   
@@ -53,7 +50,7 @@ SelectedText = False
  
 
 
-# File Menu Functions 
+# File Menu Functions
 
 
 
@@ -126,6 +123,7 @@ root.bind('<Control-Shift-S>', SaveFileAs)
 # Auto Save Declaration Function
 def AutoSaveDeclare():
     global OpenFileStatusName
+    # Declare the Auto Save function - write code for what the Auto Save feature is supposed to do
     if OpenFileStatusName:
         FileContentData = TextBox.get("1.0", END)
         with open(OpenFileStatusName, "w") as saveWrite:
@@ -135,9 +133,23 @@ def AutoSaveDeclare():
 
 # Initialize Auto Save Function
 def AutoSaveInit():
-    AutoSaveDeclare()
-    TextBox.after(1000, AutoSaveInit)
+    '''
+    1. We will open the UserInfo.py file and see if the AutoSave variable is set to true
+    '''
 
+    # Set Variable from UserInfo.py equal to True when the Auto Save feature is turned on
+    UserInfo_AutoSave = True
+    # Open the UserInfo.py file and write this variable as True
+
+    # Turn ON Auto Save
+    if AutoSave_CheckMark.get() and UserInfo_AutoSave:
+        AutoSaveDeclare()
+        TextBox.after(1000, AutoSaveInit)
+    else: 
+        # Undeclare the Python Function - Turn OFF the AutoSave Feature
+        UserInfo_AutoSave = False
+        # Open the UserInfo.py file and write this variable as False
+        
 
 
 # Preferences Drop Down Menu in File Menu
@@ -196,6 +208,7 @@ def ChooseColorTheme():
         "Default",
         "Light (Code Knight)",
         "Dark (Code Knight)",
+        "Blue",
         "Red",
     ]
 
@@ -538,7 +551,7 @@ MenuBar.config(bg="White", fg="Black", activebackground="Whitesmoke", activefore
 
 # Check Marks for Options on File Menu
 AutoSave_CheckMark = BooleanVar()
-AutoSave_CheckMark.set(False)
+AutoSave_CheckMark.set(False) # Set it equal to the AutoSave variable from the UserInfo file
 
 
 
@@ -547,7 +560,7 @@ FileMenu = Menu(MenuBar, tearoff=False)
 MenuBar.add_cascade(label="File", menu=FileMenu, underline=0)
 FileMenu.config(bg="White", fg="Black", activebackground="Whitesmoke", activeforeground="Black", activeborderwidth=1, font=('Monaco', 11))
 
-FileMenu.add_command(label="New File", command=NewFile)
+FileMenu.add_command(label="New File", command=NewFile, accelerator="Ctrl+N")
 
 # New (from template) Menu - Drop Down with Options for File Menu             
 NewFromTemplate = Menu(FileMenu, tearoff=False)
