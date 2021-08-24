@@ -105,7 +105,7 @@ def SaveFile(*args):
 root.bind('<Control-Key-s>', SaveFile)
  
 
- 
+
 # Save File As Function
 def SaveFileAs(*args):
     FilePath = filedialog.asksaveasfilename(defaultextension=".*", initialdir="C:/gui/", title="Save File As", filetypes=(("All Files", "*.*"), ("Text Files", "*.txt"), ("HTML Files", "*.html"), ("CSS Files", "*.css"), ("JavaScript Files", "*.js"), ("Python Files", "*.py")))
